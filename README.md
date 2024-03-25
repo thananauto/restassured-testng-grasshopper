@@ -1,4 +1,4 @@
-# restassured-demo-examples [![Java CI with Maven](https://github.com/thananauto/restassured-example/actions/workflows/test.yml/badge.svg)](https://github.com/thananauto/restassured-example/actions/workflows/test.yml)
+# restassured-demo-examples [![API-Docker-PublishSite](https://github.com/thananauto/restassured-testng-grasshopper/actions/workflows/test.yml/badge.svg)](https://github.com/thananauto/restassured-testng-grasshopper/actions/workflows/test.yml)
 
 this repo consists of example of how to use
 
