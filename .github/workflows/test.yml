@@ -1,0 +1,62 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: API-Docker-PublishSite
+
+on:
+  push:
+    branches: [ "main" ]
+
+  pull_request:
+    branches: [ "main" ]
+
+  schedule:
+    - cron: "0 2 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  pages: write
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout the latest code
+        uses: actions/checkout@v3
+
+      - name: Docker cache
+        uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+
+      - name: Kick start the test from docker compose file
+        run: docker-compose -f "docker-compose.yml" up -d --build
+
+      - name: Stop containers and all services
+        if: always()
+        run: |
+          bash test_wait.sh
+          docker-compose -f "docker-compose.yml" down
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload entire repository
+          path: './output'
+
+  deploy:
+    needs: api-test
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

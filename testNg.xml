@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="rest assured Practice Suite" thread-count="6" parallel="methods" configfailurepolicy="continue" >
+   <!--<listeners>
+       <listener class-name="com.qa.listners.ReportListner"/>
+   </listeners>-->
+    <test name="Test Basics 1">
+        <packages>
+            <package name="com.qa.tests"/>
+        </packages>
+    </test> <!-- Test -->
+
+</suite> <!-- Suite -->
